@@ -30,8 +30,8 @@ import org.apache.shardingsphere.infra.metadata.database.resource.unit.StorageUn
 import org.apache.shardingsphere.infra.spi.type.typed.TypedSPILoader;
 import org.apache.shardingsphere.infra.util.eventbus.EventBusContext;
 import org.apache.shardingsphere.mode.manager.ContextManager;
-import org.apache.shardingsphere.mode.manager.ContextManagerBuilder;
-import org.apache.shardingsphere.mode.manager.ContextManagerBuilderParameter;
+import org.apache.shardingsphere.mode.manager.builder.ContextManagerBuilder;
+import org.apache.shardingsphere.mode.manager.builder.ContextManagerBuilderParameter;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -70,7 +70,7 @@ public final class ShardingSphereDataSource extends AbstractDataSourceAdapter im
         Collection<RuleConfiguration> databaseRuleConfigs = new LinkedList<>(ruleConfigs);
         databaseRuleConfigs.removeAll(globalRuleConfigs);
         ContextManagerBuilderParameter param = new ContextManagerBuilderParameter(modeConfig, Collections.singletonMap(databaseName,
-                new DataSourceProvidedDatabaseConfiguration(dataSourceMap, databaseRuleConfigs)), Collections.emptyMap(), globalRuleConfigs, props, Collections.emptyList(), instanceMetaData, false);
+                new DataSourceProvidedDatabaseConfiguration(dataSourceMap, databaseRuleConfigs)), Collections.emptyMap(), globalRuleConfigs, props, Collections.emptyList(), instanceMetaData);
         return TypedSPILoader.getService(ContextManagerBuilder.class, null == modeConfig ? null : modeConfig.getType()).build(param, new EventBusContext());
     }
     

@@ -60,6 +60,7 @@ public final class SQLValue {
             case "longtext":
             case "mediumtext":
             case "json":
+            case "clob":
                 return value;
             case "tinyint":
                 return Byte.parseByte(value);
@@ -99,7 +100,7 @@ public final class SQLValue {
             case "time":
                 return Time.valueOf(LocalTime.parse(value, DateTimeFormatterFactory.getTimeFormatter()));
             case "timestamp":
-                return Timestamp.valueOf(LocalDateTime.parse(value, DateTimeFormatterFactory.getShortMillsFormatter()));
+                return Timestamp.valueOf(LocalDateTime.parse(value, DateTimeFormatterFactory.getShortMillisFormatter()));
             case "blob":
             case "longblob":
             case "mediumblob":
@@ -130,7 +131,7 @@ public final class SQLValue {
             return formatString(DateTimeFormatterFactory.getTimeFormatter().format(((Time) value).toLocalTime()));
         }
         if (value instanceof Timestamp) {
-            return formatString(DateTimeFormatterFactory.getShortMillsFormatter().format(((Timestamp) value).toLocalDateTime()));
+            return formatString(DateTimeFormatterFactory.getShortMillisFormatter().format(((Timestamp) value).toLocalDateTime()));
         }
         if (value instanceof byte[]) {
             return formatString(new String((byte[]) value, StandardCharsets.UTF_8));

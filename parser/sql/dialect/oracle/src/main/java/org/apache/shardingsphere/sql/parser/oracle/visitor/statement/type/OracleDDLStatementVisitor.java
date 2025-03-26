@@ -373,6 +373,7 @@ public final class OracleDDLStatementVisitor extends OracleStatementVisitor impl
     @Override
     public ASTNode visitCreateView(final CreateViewContext ctx) {
         OracleCreateViewStatement result = new OracleCreateViewStatement();
+        result.setReplaceView(null != ctx.REPLACE());
         OracleDMLStatementVisitor visitor = new OracleDMLStatementVisitor();
         getGlobalParameterMarkerSegments().addAll(visitor.getGlobalParameterMarkerSegments());
         getStatementParameterMarkerSegments().addAll(visitor.getStatementParameterMarkerSegments());
@@ -1653,6 +1654,9 @@ public final class OracleDDLStatementVisitor extends OracleStatementVisitor impl
     
     @Override
     public ASTNode visitPlsqlBlock(final PlsqlBlockContext ctx) {
+        if (null != ctx.body() && null != ctx.body().statement()) {
+            ctx.body().statement().forEach(this::visit);
+        }
         return new OraclePLSQLBlockStatement();
     }
     

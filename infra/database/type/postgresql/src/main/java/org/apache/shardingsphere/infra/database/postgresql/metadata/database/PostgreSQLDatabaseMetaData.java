@@ -61,6 +61,7 @@ public final class PostgreSQLDatabaseMetaData implements DialectDatabaseMetaData
         result.put("NUMERIC", Types.NUMERIC);
         result.put("REAL", Types.REAL);
         result.put("BOOL", Types.BOOLEAN);
+        result.put("CHARACTER VARYING", Types.VARCHAR);
         return result;
     }
     
@@ -82,6 +83,11 @@ public final class PostgreSQLDatabaseMetaData implements DialectDatabaseMetaData
     @Override
     public Optional<String> getDefaultSchema() {
         return Optional.of("public");
+    }
+    
+    @Override
+    public String formatTableNamePattern(final String tableNamePattern) {
+        return tableNamePattern.toLowerCase();
     }
     
     @Override

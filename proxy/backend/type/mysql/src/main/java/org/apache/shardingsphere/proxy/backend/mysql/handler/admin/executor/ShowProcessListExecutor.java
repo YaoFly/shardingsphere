@@ -61,8 +61,8 @@ public final class ShowProcessListExecutor implements DatabaseAdminQueryExecutor
     }
     
     private QueryResult getQueryResult() {
-        Collection<Process> processes = ProxyContext.getInstance().getContextManager().getPersistServiceFacade().getProcessPersistService().getProcessList();
-        if (null == processes || processes.isEmpty()) {
+        Collection<Process> processes = ProxyContext.getInstance().getContextManager().getPersistServiceFacade().getModeFacade().getProcessService().getProcessList();
+        if (processes.isEmpty()) {
             return new RawMemoryQueryResult(queryResultMetaData, Collections.emptyList());
         }
         List<MemoryQueryResultDataRow> rows = processes.stream().map(this::getMemoryQueryResultDataRow).collect(Collectors.toList());

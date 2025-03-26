@@ -17,8 +17,6 @@
 
 package org.apache.shardingsphere.mode.state;
 
-import org.apache.shardingsphere.infra.state.cluster.ClusterState;
-
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -26,27 +24,27 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public final class StateContext {
     
-    private final AtomicReference<ClusterState> clusterState;
+    private final AtomicReference<ShardingSphereState> state;
     
-    public StateContext(final ClusterState clusterState) {
-        this.clusterState = new AtomicReference<>(clusterState);
+    public StateContext(final ShardingSphereState state) {
+        this.state = new AtomicReference<>(state);
     }
     
     /**
-     * Get cluster state.
+     * Get state.
      *
-     * @return cluster state
+     * @return state
      */
-    public ClusterState getClusterState() {
-        return clusterState.get();
+    public ShardingSphereState getState() {
+        return state.get();
     }
     
     /**
-     * Switch cluster state.
+     * Switch state.
      *
-     * @param state to be switched cluster state
+     * @param state to be switched state
      */
-    public void switchClusterState(final ClusterState state) {
-        clusterState.set(state);
+    public void switchState(final ShardingSphereState state) {
+        this.state.set(state);
     }
 }
