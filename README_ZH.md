@@ -65,6 +65,10 @@ ShardingSphere 已于 2020 年 4 月 16 日成为 [Apache 软件基金会](https
 
 迄今为止，已有超过 [15,000 个 GitHub 项目](https://github.com/search?l=Maven+POM&q=shardingsphere+language%3A%22Maven+POM%22&type=Code)采用了 ShardingSphere。
 
+### AI 总结
+
+使用 DeepWiki 自动总结的 [ShardingSphere wiki](https://deepwiki.com/apache/shardingsphere)。
+
 ### 文档📜
 
 <hr>
@@ -136,6 +140,9 @@ Apache ShardingSphere 由 JDBC、Proxy 这 2 款既能够独立部署，又支�
 它使用客户端直连数据库，以 jar 包形式提供服务，无需额外部署和依赖，可理解为增强版的 JDBC 驱动，完全兼容 JDBC 和各种 ORM 框架。
 
 :link: 更多信息请参考[官方网站](https://shardingsphere.apache.org/document/current/cn/overview/#shardingsphere-jdbc)。
+
+> **注意**：使用 ShardingSphere-JDBC 接入端时，需特别关注应用的内存配置。由于 Antlr 在 SQL 解析过程中，会使用内部缓存来提升性能，如果应用的 SQL 模板数量过多，则会导致缓存不断增长，占用大量堆内存。
+根据 ANTLR 官方 [issue#4232](https://github.com/antlr/antlr4/issues/4232) 的反馈，目前该问题尚未得到优化，应用接入 ShardingSphere-JDBC 时，建议通过 `-Xmx` 参数设置合理的堆内存大小，避免因内存不足导致的 OOM。
 
 ### ShardingSphere-Proxy
 

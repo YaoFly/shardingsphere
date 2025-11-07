@@ -32,9 +32,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isA;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -89,7 +89,7 @@ class RuleMetaDataTest {
     
     @Test
     void assertGetSingleRule() {
-        assertThat(ruleMetaData.getSingleRule(RuleMetaDataShardingSphereRuleFixture.class), instanceOf(RuleMetaDataShardingSphereRuleFixture.class));
+        assertThat(ruleMetaData.getSingleRule(RuleMetaDataShardingSphereRuleFixture.class), isA(RuleMetaDataShardingSphereRuleFixture.class));
     }
     
     @Test
@@ -110,5 +110,18 @@ class RuleMetaDataTest {
         assertTrue(ruleMetaData.getAttributes(RuleAttribute.class).isEmpty());
         assertFalse(ruleMetaData.getAttributes(DataSourceMapperRuleAttribute.class).isEmpty());
         assertFalse(ruleMetaData.getAttributes(DataNodeRuleAttribute.class).isEmpty());
+    }
+    
+    @Test
+    void assertFindAttribute() {
+        Optional<DataSourceMapperRuleAttribute> actual = ruleMetaData.findAttribute(DataSourceMapperRuleAttribute.class);
+        assertTrue(actual.isPresent());
+        assertThat(actual.get(), isA(DataSourceMapperRuleAttribute.class));
+    }
+    
+    @Test
+    void assertFindEmptyAttribute() {
+        RuleMetaData metaData = new RuleMetaData(Collections.singleton(mock(ShardingSphereRule.class, RETURNS_DEEP_STUBS)));
+        assertFalse(metaData.findAttribute(DataSourceMapperRuleAttribute.class).isPresent());
     }
 }

@@ -18,12 +18,12 @@
 package org.apache.shardingsphere.single.distsql.handler.update;
 
 import lombok.Setter;
-import org.apache.shardingsphere.distsql.handler.engine.update.rdl.rule.spi.database.DatabaseRuleCreateExecutor;
+import org.apache.shardingsphere.database.connector.core.metadata.database.metadata.DialectDatabaseMetaData;
+import org.apache.shardingsphere.database.connector.core.type.DatabaseTypeRegistry;
+import org.apache.shardingsphere.database.exception.core.exception.syntax.table.TableExistsException;
+import org.apache.shardingsphere.distsql.handler.engine.update.rdl.rule.spi.database.type.DatabaseRuleCreateExecutor;
 import org.apache.shardingsphere.infra.database.DatabaseTypeEngine;
-import org.apache.shardingsphere.infra.database.core.metadata.database.DialectDatabaseMetaData;
-import org.apache.shardingsphere.infra.database.core.type.DatabaseTypeRegistry;
-import org.apache.shardingsphere.infra.exception.core.ShardingSpherePreconditions;
-import org.apache.shardingsphere.infra.exception.dialect.exception.syntax.table.TableExistsException;
+import org.apache.shardingsphere.infra.exception.ShardingSpherePreconditions;
 import org.apache.shardingsphere.infra.exception.kernel.metadata.TableNotFoundException;
 import org.apache.shardingsphere.infra.exception.kernel.metadata.datanode.InvalidDataNodeFormatException;
 import org.apache.shardingsphere.infra.exception.kernel.metadata.resource.storageunit.EmptyStorageUnitException;
@@ -87,7 +87,7 @@ public final class LoadSingleTableExecutor implements DatabaseRuleCreateExecutor
     private void checkShouldNotExistLogicTables(final LoadSingleTableStatement sqlStatement, final String defaultSchemaName) {
         Collection<SingleTableSegment> tableSegments = sqlStatement.getTables();
         DialectDatabaseMetaData dialectDatabaseMetaData = new DatabaseTypeRegistry(database.getProtocolType()).getDialectDatabaseMetaData();
-        boolean isSchemaSupportedDatabaseType = dialectDatabaseMetaData.getDefaultSchema().isPresent();
+        boolean isSchemaSupportedDatabaseType = dialectDatabaseMetaData.getSchemaOption().getDefaultSchema().isPresent();
         ShardingSphereSchema schema = database.getSchema(defaultSchemaName);
         for (SingleTableSegment each : tableSegments) {
             checkTableNodeFormat(isSchemaSupportedDatabaseType, each);
